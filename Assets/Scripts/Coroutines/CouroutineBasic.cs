@@ -13,9 +13,11 @@ public class CouroutineBasic : MonoBehaviour
     IEnumerator Routine()
     {
         Debug.Log("I'm starting the Coroutine!");
-        yield return new WaitForSeconds(.5f);
-        Debug.Log("I'm updating the Coroutine!");
-        yield return new WaitForSeconds(.5f);
+        for (float ft = 10; ft > 0; ft--)
+        {
+            Debug.Log("I'm Updating the Coroutine!");
+            yield return new WaitForSeconds(0.5f);
+        }
         Debug.Log("I'm ending the Coroutine!");
     }
 }
