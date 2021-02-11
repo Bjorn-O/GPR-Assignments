@@ -6,18 +6,27 @@ public class CouroutineBasic : MonoBehaviour
 {
     [Range(0.0f, 10.0f)]
     public float fadeTime;
+    [Range(0.0f, 10.0f)]
+    public float speed;
+
     private bool isFading;
     private bool isFaded;
+
+    private bool isMoving;
+
+    public Transform destination;
+    private Vector3 tempDestination;
 
     // Start is called before the first frame update
     void Start()
     {
         isFaded = false;
+        isMoving = false;
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !isFading)
+        if (Input.GetKeyDown(KeyCode.F) && !isFading)
         {
             switch (isFaded)
             {
@@ -30,6 +39,27 @@ public class CouroutineBasic : MonoBehaviour
                 break;
             }
         }
+        if (Input.GetKeyDown(KeyCode.Space) && !isMoving)
+        {
+            StartCoroutine("MoveOut");
+        }
+    }
+
+    IEnumerator MoveOut()
+    {
+        isMoving = true;
+        tempDestination = this.transform.position;
+        Debug.Log("Test");
+        while (Vector3.Distance(transform.position, destination.position) > 0.001f)
+        {
+            float step = speed * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(transform.position, destination.position, step);
+            yield return null;
+        }
+        Debug.Log(tempDestination);
+        destination.position = tempDestination;
+        isMoving = false;
+        yield return null;
     }
 
     IEnumerator FadeOut()
